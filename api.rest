@@ -1,0 +1,16 @@
+POST http://localhost:3000/api/hello
+Content-Type: application/json
+
+{
+    "messengerURL": "hello"
+}
+########
+
+POST http://localhost:3000/api/sender
+Content-Type: application/json
+
+{
+    "messengerURL" : "https://www.messenger.com/t/100005543894347",
+    "pass": "test",
+    "total": 15
+}
