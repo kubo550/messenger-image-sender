@@ -1,7 +1,8 @@
 # Messenger Image Sender v 0.2.0
 
 Best web app that allows you to send images to your friend / group on messenger.  
-Images will be divided into parts and send with suitable delay you want. At every moment you can manually stop sending just clicking one red button. See [Previev](#preview-app)
+Images will be divided into parts and send with suitable delay you want. At every moment you can manually stop sending just clicking one red button.  
+**See [Previev](#preview-app)**.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
