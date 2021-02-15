@@ -11,6 +11,7 @@ Clone respozytory on your desktop then install add dependencies.
 git clone https://github.com/kubo550/messenger-image-sender
 cd messenger-image-sender
 yarn install
+yarn run dev
 
 ```
 
