@@ -14,3 +14,12 @@ Content-Type: application/json
     "pass": "test",
     "total": 15
 }
+
+#######
+
+POST http://localhost:3000/api/terminate
+Content-Type: application/json
+
+{
+    "pass": "1ccd8730652e2783e6d8"
+}
