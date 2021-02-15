@@ -8,6 +8,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Clone respozytory on your desktop then install add dependencies.
 
 ```bash
+git clone https://github.com/kubo550/messenger-image-sender.git
 npm run dev
 # or
 yarn dev
