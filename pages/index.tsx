@@ -1,23 +1,39 @@
 import axios from "axios";
 import { ChangeEvent, useRef, useState } from "react";
+import { getTerminatePass } from "../utils/createTerminatePass/createTerminatePass";
+
+const NUM_OF_PARTS = 3;
+const MESSENGER_URL = "https://www.messenger.com/t/100005543894347";
+const QUALITY = 0.4; // FROM 0.1 - LOW TO 1 - HIGHT
 
 const allowedFileTypes = ["image/jpeg", "image/png"];
 
 const Home = () => {
   const [file, setFile] = useState<File>(null);
   const [loading, setLoading] = useState(false);
+  const [pass, setPass] = useState<string>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
 
+  const terminateTask = async (pass: string) => {
+    const { data } = await axios.post("http://localhost:3000/api/terminate", {
+      pass,
+    });
+
+    if (data.status) {
+      setLoading(false);
+      setFile(null);
+      // TODO SWEETALERT2
+    }
+  };
+
   const prepareImage = () => {
-    const NUM_OF_PARTS = 5;
-    const MESSENGER_URL = "https://www.messenger.com/t/100005543894347";
-    const PASS = "test";
-    const QUALITY = 0.4; // FROM 0.1 - LOW TO 1 - HIGHT
+    const pass = getTerminatePass();
+    setPass(pass);
 
     const width = (canvas.current.width = imgRef.current.width);
     const height = (canvas.current.height = imgRef.current.height);
-    const ctx: CanvasRenderingContext2D = canvas.current.getContext("2d");
+    const ctx = canvas.current.getContext("2d");
 
     const offset = Math.floor(height / NUM_OF_PARTS);
     ctx.fillStyle = `black`;
@@ -32,6 +48,7 @@ const Home = () => {
       ctx.fillRect(0, y, width, height);
 
       const image = canvas.current.toDataURL("image/jpeg", QUALITY);
+
       const sendToServer = async () => {
         const { data } = await axios.post(
           "http://localhost:3000/api/createImage",
@@ -39,6 +56,7 @@ const Home = () => {
             image,
             count: ++count,
             total: NUM_OF_PARTS,
+            pass,
           }
         );
         if (data.isLast) {
@@ -47,12 +65,10 @@ const Home = () => {
             {
               messengerURL: MESSENGER_URL,
               total: NUM_OF_PARTS,
-              pass: PASS,
+              pass,
             }
           );
-          if (data.status) {
-            setLoading(false);
-          }
+          data.status && setLoading(false);
         }
       };
 
@@ -87,11 +103,13 @@ const Home = () => {
       <div>
         <h2>Insert Image File</h2>
         <input type='file' onChange={handleChangeFile} />
-
-        <p>Password</p>
-        <input type='text' />
       </div>
-      {loading && <h2> Loading... </h2>}
+      {loading && (
+        <div>
+          <h2>Loading...</h2>
+          <button onClick={() => terminateTask(pass)}>TERMINATE JOB</button>
+        </div>
+      )}
       <div>
         {file?.name && (
           <>
