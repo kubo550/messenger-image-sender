@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import puppeteer from "puppeteer"
+import axios from "axios"
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
     type SenderType = {
@@ -29,7 +30,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
             await page.$eval("button[data-testid=cookie-policy-banner-accept]", (btn: any) =>
                 btn.click()
             );
-
+            // +                                                   DEV MODE
             await page.$eval("#email", (input: any) => (input.value = email), email);
             await page.$eval("#pass", (input: any) => (input.value = password), password);
             await page.$eval("#loginbutton", (btn: any) => btn.click());
@@ -41,21 +42,28 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 
             const elementsHandle = await page.$("input[type=file]");
             for (let i = 1; i <= total; i++) {
-
-                await elementsHandle.uploadFile(`./clientImages/test${i}.jpeg`);
-                await page.waitForTimeout(2000);
-                await page.keyboard.press("Enter");
-                await page.waitForTimeout(1000)
+                try {
+                    await elementsHandle.uploadFile(`./clientImages/${pass}/${i}.jpeg`);
+                    await page.waitForTimeout(2000);
+                    await page.keyboard.press("Enter");
+                    await page.waitForTimeout(1000)
+                } catch (err) {
+                    // ERROR WHEN FILES HAS BEEN DELETED SO ITS FINE!!
+                    return res.status(200).json({ message: 'done!', status: true })
+                }
 
             }
 
             await page.screenshot({ path: "kotek.png" });
 
             await browser.close();
-            res.status(200).json({ message: 'done!', status: true })
+            await axios.post("http://localhost:3000/api/terminate", {
+                pass,
+            })
+            return res.status(200).json({ message: 'done!', status: true })
         } catch (err) {
             console.log(err);
-            res.status(500).json({ message: `Error! ${err}`, status: false })
+            return res.status(500).json({ message: `Error! ${err}`, status: false })
         }
     })();
 }
