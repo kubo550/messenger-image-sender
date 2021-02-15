@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "crypto": "^1.0.1",
     "fs": "^0.0.1-security",
     "next": "10.0.6",
     "puppeteer": "^7.1.0",
