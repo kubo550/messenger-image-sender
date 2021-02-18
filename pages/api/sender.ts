@@ -2,15 +2,20 @@ import { NextApiRequest, NextApiResponse } from "next"
 import puppeteer from "puppeteer"
 import axios from "axios"
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
-    type SenderType = {
-        messengerURL: string,
-        pass: string,
-        total: number
-    }
+type SenderType = {
+    messengerURL: string,
+    pass: string,
+    total: number
+};
 
-    const email = process.env.MESSENGER_EMAIL
-    const password = process.env.MESSENGER_PASSWORD
+interface HTMLElement extends Element {
+    value: string
+}
+
+const email = process.env.MESSENGER_EMAIL
+const password = process.env.MESSENGER_PASSWORD
+
+export default (req: NextApiRequest, res: NextApiResponse) => {
 
     const { messengerURL, pass, total }: SenderType = req.body
 
@@ -30,9 +35,23 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
             await page.$eval("button[data-testid=cookie-policy-banner-accept]", (btn: any) =>
                 btn.click()
             );
-            // +                                                   DEV MODE
-            await page.$eval("#email", (input: any) => (input.value = email), email);
-            await page.$eval("#pass", (input: any) => (input.value = password), password);
+
+            await page.$eval(
+                "#email",
+                (input: HTMLElement, email: string) => {
+                    input.value = email;
+                },
+                email
+            );
+
+            await page.$eval(
+                "#pass",
+                (input: HTMLElement, password: string) => {
+                    input.value = password;
+                },
+                password
+            );
+
             await page.$eval("#loginbutton", (btn: any) => btn.click());
 
             await page.waitForTimeout(3000);
@@ -41,6 +60,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
             await page.waitForTimeout(3000);
 
             const elementsHandle = await page.$("input[type=file]");
+
             for (let i = 1; i <= total; i++) {
                 try {
                     await elementsHandle.uploadFile(`./clientImages/${pass}/${i}.jpeg`);
@@ -54,7 +74,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 
             }
 
-            await page.screenshot({ path: "kotek.png" });
+            // await page.screenshot({ path: "kotek.png" });
 
             await browser.close();
             await axios.post("http://localhost:3000/api/terminate", {
