@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ChangeEvent, useRef, useState } from "react";
+import { Wrapper } from "../components/Home/Home.style";
 import { getTerminatePass } from "../utils/createTerminatePass/createTerminatePass";
 
 const NUM_OF_PARTS = 3;
@@ -30,6 +31,7 @@ const Home = () => {
   const prepareImage = () => {
     const pass = getTerminatePass();
     setPass(pass);
+    setLoading(true);
 
     const width = (canvas.current.width = imgRef.current.width);
     const height = (canvas.current.height = imgRef.current.height);
@@ -40,8 +42,6 @@ const Home = () => {
     ctx.fillRect(0, 0, width, height);
 
     let count = 0;
-
-    setLoading(true);
 
     for (let y = offset; y <= height; y += offset) {
       ctx.drawImage(imgRef.current, 0, 0);
@@ -76,14 +76,12 @@ const Home = () => {
     }
   };
 
-  const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files[0];
 
-    if (!file) {
-      return setFile(null);
-    }
-
-    if (allowedFileTypes.includes(file.type)) {
+    if (!file || !allowedFileTypes.includes(file.type)) {
+      setFile(null);
+    } else {
       const reader = new FileReader();
 
       reader.readAsDataURL(file);
@@ -98,32 +96,39 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1>Helllooo from home Component</h1>
-      <div>
-        <h2>Insert Image File</h2>
-        <input type='file' onChange={handleChangeFile} />
-      </div>
-      {loading && (
-        <div>
-          <h2>Loading...</h2>
-          <button onClick={() => terminateTask(pass)}>TERMINATE JOB</button>
-        </div>
-      )}
-      <div>
-        {file?.name && (
-          <>
-            <div>
-              <p> {file.name} </p>
-              <img ref={imgRef} src='' alt='' />
-              <br />
-              <button onClick={prepareImage}>Prepare images</button>
-            </div>
-            <canvas ref={canvas}></canvas>
-          </>
+    <Wrapper>
+      <div className='left'></div>
+      <div className='right'>
+        <main>
+          <form>
+            Insert Image File
+            <label>
+              <input type='file' onChange={handleChange} />
+              <span>+</span>
+            </label>
+          </form>
+        </main>
+        {loading && (
+          <div>
+            <h2>Loading...</h2>
+            <button onClick={() => terminateTask(pass)}>TERMINATE JOB</button>
+          </div>
         )}
+        <div>
+          {file?.name && (
+            <>
+              <div>
+                <p> {file.name} </p>
+                <img style={{ maxWidth: "80%" }} ref={imgRef} src='' alt='' />
+                <br />
+                <button onClick={prepareImage}>Prepare images</button>
+              </div>
+              <canvas ref={canvas}></canvas>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
