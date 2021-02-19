@@ -6,6 +6,18 @@ Images will be divided into parts and send with suitable delay you want. At ever
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Tech Stak
+
+![TypeScript](https://img.shields.io/badge/-TypeScript-05122A?style=flat&logo=typescript)&nbsp;
+![React](https://img.shields.io/badge/-React-05122A?style=flat&logo=react)&nbsp;
+![Next](https://img.shields.io/badge/-Next.js-05122A?style=flat&logo=Next.js)&nbsp;
+![Node.js](https://img.shields.io/badge/-Node.js-05122A?style=flat&logo=node.js)&nbsp;
+
+![SCSS](https://img.shields.io/badge/-SCSS-05122A?style=flat&logo=SASS)&nbsp;
+![Material](https://img.shields.io/badge/-Material_UI-05122A?style=flat&logo=material-ui)&nbsp;
+![Styled Components](https://img.shields.io/badge/-styled_components-05122A?style=flat&logo=styled-components)&nbsp;
+
+
 ## Instalation
 
 Clone respozytory on your desktop then install add dependencies.
