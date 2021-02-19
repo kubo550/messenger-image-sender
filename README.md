@@ -34,5 +34,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 5. Pick any image from your machine, and press the button. 
 
 ## Preview App
-
-![preview messenger screen](https://raw.githubusercontent.com/kubo550/messenger-image-sender/main/preview/Screenshot_20210219-192348_Messenger.jpg =200x500)
+<img src="https://raw.githubusercontent.com/kubo550/messenger-image-sender/main/preview/Screenshot_20210219-192348_Messenger.jpg"  alt="preview messenger screen" width="400" />
