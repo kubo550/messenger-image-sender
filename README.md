@@ -27,11 +27,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Usage
 
-1. After You fork this respository, **YOU HAVE TO** change variables in ```bash 
- .env
-
-```
-
-file to your Messenger email and password.
+1. After You fork this respository, **YOU HAVE TO** change variables in __.env__ file to your Messenger email and password.
 
 ## Preview App
