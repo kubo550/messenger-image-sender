@@ -28,5 +28,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Usage
 
 1. After You fork this respository, **YOU HAVE TO** change variables in __.env__ file to your Messenger email and password.
+2. Change the messengerURL to your own it may be a group or direct messages.
+3. Set up how many parts of this images will be.
+4. Open project in browser __npm run dev__ OR __yarn run dev__
+5. Pick any image from your machine, and press the button. 
 
 ## Preview App
